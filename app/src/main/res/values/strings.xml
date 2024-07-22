@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ToDoListMqtt</string>
+
+    <!--    Task Screen-->
+    <string name="create_task_error">Erro ao criar a tarefa.</string>
+    <string name="create_task_success">Tarefa criada com sucesso!</string>
+</resources>
