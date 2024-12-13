@@ -1,4 +1,4 @@
-package com.example.todolistmqtt.data.remote.mqtt
+package com.example.todolistmqtt.drivers.mqtt
 
 object MQTTConstants {
     const val TOPIC_NEW = "todo/new"

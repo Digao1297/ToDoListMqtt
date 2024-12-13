@@ -31,7 +31,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "MQTT_SERVER", "\"tcp://10.125.142.146:1883\"")
+            buildConfigField("String", "MQTT_SERVER", "\"tcp://192.168.15.4:1883\"")
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
 

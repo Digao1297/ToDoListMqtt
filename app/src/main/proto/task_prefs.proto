@@ -9,3 +9,7 @@ message TaskProto {
   bool isPendingSync = 3;
   int64 timestamp = 4;
 }
+
+message TaskListProto {
+  repeated TaskProto tasks = 1;
+}

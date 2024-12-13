@@ -17,7 +17,7 @@ class TaskRepositoryImpl @Inject constructor(
     override suspend fun create(task: Task): Flow<ResultStatus<Unit>> = flow<ResultStatus<Unit>> {
         emit(ResultStatus.Loading)
         dataSource.create(task.toEntity())
-
+        emit(ResultStatus.Success(Unit))
     }.catch { throwable ->
         emit(ResultStatus.Error(throwable))
     }
@@ -31,11 +31,19 @@ class TaskRepositoryImpl @Inject constructor(
         emit(ResultStatus.Error(throwable))
     }
 
-    override suspend fun getPendingSyncTasks(): List<Task> {
-        return dataSource.getPendingSyncTasks().map { it.toModel() }
+    override suspend fun getPendingSyncTasks(): Flow<ResultStatus<List<Task>>> = flow<ResultStatus<List<Task>>> {
+        emit(ResultStatus.Loading)
+        val tasks =  dataSource.getPendingSyncTasks().map { it.toModel() }
+        emit(ResultStatus.Success(tasks))
+    }.catch { throwable ->
+        emit(ResultStatus.Error(throwable))
     }
 
-    override suspend fun markTaskAsSynced(taskId: Int) {
-        return dataSource.markTaskAsSynced(taskId)
+    override suspend fun markTaskAsSynced(taskId: Int): Flow<ResultStatus<Unit>> = flow<ResultStatus<Unit>> {
+        emit(ResultStatus.Loading)
+        dataSource.markTaskAsSynced(taskId)
+        emit(ResultStatus.Success(Unit))
+    }.catch { throwable ->
+        emit(ResultStatus.Error(throwable))
     }
 }

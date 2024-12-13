@@ -1,9 +1,9 @@
 package com.example.todolistmqtt.data.repository
 
 import com.example.todolistmqtt.common.ResultStatus
-import com.example.todolistmqtt.data.remote.mqtt.MQTTClient
-import com.example.todolistmqtt.data.remote.mqtt.MQTTState
-import com.example.todolistmqtt.data.remote.mqtt.MQTTStateFlow
+import com.example.todolistmqtt.drivers.mqtt.MQTTClient
+import com.example.todolistmqtt.drivers.mqtt.MQTTState
+import com.example.todolistmqtt.drivers.mqtt.MQTTStateFlow
 import com.example.todolistmqtt.domain.repository.CommunicationRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

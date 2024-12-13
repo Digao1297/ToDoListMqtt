@@ -3,7 +3,7 @@ package com.example.todolistmqtt.ui.feature.splash
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todolistmqtt.common.ResultStatus
-import com.example.todolistmqtt.domain.usecase.communication.ConnectUseCase
+import com.example.todolistmqtt.domain.usecase.mqtt.ConnectUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

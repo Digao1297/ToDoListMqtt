@@ -1,6 +1,4 @@
-package com.example.todolistmqtt.data.remote.mqtt
-
-import kotlinx.coroutines.flow.Flow
+package com.example.todolistmqtt.drivers.mqtt
 
 interface MQTTClient {
     fun connect()

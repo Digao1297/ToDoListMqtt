@@ -7,9 +7,13 @@ import androidx.work.Configuration
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
-import com.example.todolistmqtt.ui.worker.TaskSyncWorker
+import com.example.todolistmqtt.drivers.worker.TaskSyncWorker
 import com.example.todolistmqtt.domain.repository.CommunicationRepository
 import com.example.todolistmqtt.domain.repository.TaskRepository
+import com.example.todolistmqtt.domain.usecase.mqtt.TaskSyncSenderUseCase
+import com.example.todolistmqtt.domain.usecase.task.MarkTaskAsSyncedUseCase
+import com.example.todolistmqtt.domain.usecase.task.PendingSyncTasksUseCase
+import dagger.assisted.Assisted
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -26,26 +30,20 @@ class ToDoListApplication : Application(), Configuration.Provider {
             .setWorkerFactory(taskSyncWorkerFactory)
             .build()
 
-
-    override fun onCreate() {
-        super.onCreate()
-
-
-    }
 }
 
 class TaskSyncWorkerFactory @Inject constructor(
-    private val taskRepository: TaskRepository,
-    private val communicationRepository: CommunicationRepository,
-) : WorkerFactory() {
+    private val getPendingSyncTasksUseCase: PendingSyncTasksUseCase,
+    private val taskSyncSenderUseCase: TaskSyncSenderUseCase,
+    ) : WorkerFactory() {
     override fun createWorker(
         appContext: Context,
         workerClassName: String,
         workerParameters: WorkerParameters
-    ): ListenableWorker? =
+    ): ListenableWorker =
         TaskSyncWorker(
-            taskRepository = taskRepository,
-            communicationRepository = communicationRepository,
+            getPendingSyncTasksUseCase = getPendingSyncTasksUseCase,
+            taskSyncSenderUseCase = taskSyncSenderUseCase,
             context = appContext,
             params = workerParameters,
         )

@@ -4,4 +4,10 @@
     <!--    Task Screen-->
     <string name="create_task_error">Erro ao criar a tarefa.</string>
     <string name="create_task_success">Tarefa criada com sucesso!</string>
+
+    <!--    Global-->
+    <string name="start_sync_message">Sincronizando</string>
+    <string name="complete_sync_message">Sincronização completa</string>
+    <string name="error_sync_message">Erro na sincronização</string>
+    <string name="send_sync_message">Enviando dados</string>
 </resources>

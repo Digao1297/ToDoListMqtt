@@ -44,7 +44,7 @@ import com.example.todolistmqtt.ui.theme.ToDoListMqttTheme
 @Composable
 fun TaskRoute(
     viewModel: TaskViewModel = hiltViewModel<TaskViewModel>(),
-    navController: NavController,
+//    navController: NavController,
 ) {
 
     val context = LocalContext.current

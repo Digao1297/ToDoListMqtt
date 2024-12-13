@@ -1,7 +1,10 @@
-package com.example.todolistmqtt.data.remote.mqtt
+package com.example.todolistmqtt.drivers.mqtt
 
 import android.util.Log
-import com.example.todolistmqtt.data.remote.di.annotation.ClientID
+import com.example.TaskProto
+import com.example.todolistmqtt.data.model.toData
+import com.example.todolistmqtt.domain.usecase.mqtt.TaskSyncReceiverUseCase
+import com.example.todolistmqtt.domain.usecase.ui.SyncStatusTaskUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,7 +20,8 @@ import javax.inject.Inject
 class PahoMQTTClient @Inject constructor(
     private val mqttClient: MqttAndroidClient,
     private val mqttStateFlow: MQTTStateFlow,
-
+    private val taskSyncReceiverUseCase: TaskSyncReceiverUseCase,
+    private val syncStatusTaskUseCase: SyncStatusTaskUseCase,
 ) : MQTTClient {
 
     companion object {
@@ -45,7 +49,11 @@ class PahoMQTTClient @Inject constructor(
             this.qos = qos
             isRetained = retained
         }
-        mqttClient.publish(topic, msg, null, mqttActionListener)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            syncStatusTaskUseCase.onSendSync()
+            mqttClient.publish(topic, msg, null, mqttActionListener)
+        }
     }
 
     override fun subscribe(topic: String, qos: Int) {
@@ -92,18 +100,37 @@ class PahoMQTTClient @Inject constructor(
         }
 
         override fun messageArrived(topic: String?, message: MqttMessage?) {
-            val msg = "Receive message: ${message.toString()} from topic: $topic"
-            Log.d(TAG_MQTT, msg)
 
             val topicParts = topic?.split("/")
-            if(topicParts !=null && topicParts.size >= 2){
+            if (topicParts != null && topicParts.size >= 2) {
                 val clientId = topicParts[1]
 
-                if(mqttClient.clientId != clientId){
+                if (mqttClient.clientId != clientId && message != null) {
+                    val task = TaskProto.parseFrom(message.payload).toData()
+                    CoroutineScope(Dispatchers.IO).launch {
+                        try {
+                            syncStatusTaskUseCase.startSync()
+                            taskSyncReceiverUseCase(task)
+                        } catch (e: Exception) {
+                            syncStatusTaskUseCase.onError(e)
+                        }
+                    }.also { job ->
+                        job.invokeOnCompletion { throwable ->
+                            if (throwable == null) {
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    syncStatusTaskUseCase.onCompletedSync()
+                                }
+                            } else {
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    syncStatusTaskUseCase.onError(throwable)
+                                }
+                            }
 
+                        }
+                    }
                 }
-            }else {
-              Log.d(TAG_MQTT, "ClientID Not Found!!")
+            } else {
+                Log.d(TAG_MQTT, "ClientID Not Found!!")
             }
 
 

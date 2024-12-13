@@ -1,4 +1,4 @@
-package com.example.todolistmqtt.ui.worker
+package com.example.todolistmqtt.drivers.worker
 
 import android.content.Context
 import androidx.work.Constraints
@@ -18,14 +18,9 @@ class TaskSyncManagerImpl(
 
     private val workManager = WorkManager.getInstance(context)
 
-    override fun startPeriodicSync() {
+    override fun startSyncManager() {
         val taskSyncWorkRequest =
             PeriodicWorkRequestBuilder<TaskSyncWorker>(15, TimeUnit.MINUTES)
-                .setConstraints(
-                    Constraints.Builder()
-                        .setRequiredNetworkType(NetworkType.CONNECTED)
-                        .build()
-                )
                 .build()
         workManager.enqueueUniquePeriodicWork(
             WORK_NAME,
@@ -34,7 +29,8 @@ class TaskSyncManagerImpl(
         )
     }
 
-    override fun stopPeriodicSync() {
+
+    override fun stopSyncManager() {
         workManager.cancelUniqueWork(WORK_NAME)
     }
 }

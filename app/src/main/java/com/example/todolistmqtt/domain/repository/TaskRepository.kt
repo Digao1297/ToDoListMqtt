@@ -9,7 +9,7 @@ interface TaskRepository {
 
     suspend fun read(): Flow<ResultStatus<List<Task>>>
 
-    suspend fun getPendingSyncTasks(): List<Task>
+    suspend fun getPendingSyncTasks(): Flow<ResultStatus<List<Task>>>
 
-    suspend fun markTaskAsSynced(taskId: Int)
+    suspend fun markTaskAsSynced(taskId: Int):Flow<ResultStatus<Unit>>
 }

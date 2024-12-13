@@ -1,4 +1,4 @@
-package com.example.todolistmqtt.domain.usecase.communication
+package com.example.todolistmqtt.domain.usecase.mqtt
 
 import com.example.todolistmqtt.common.ResultStatus
 import com.example.todolistmqtt.domain.repository.CommunicationRepository

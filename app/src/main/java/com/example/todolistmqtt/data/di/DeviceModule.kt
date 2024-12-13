@@ -3,7 +3,7 @@ package com.example.todolistmqtt.data.di
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.todolistmqtt.data.local.shared.SharedConstants
-import com.example.todolistmqtt.data.remote.di.annotation.ClientID
+import com.example.todolistmqtt.drivers.mqtt.di.annotation.ClientID
 import com.example.todolistmqtt.data.utils.DeviceProvider
 import dagger.Module
 import dagger.Provides

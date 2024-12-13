@@ -1,4 +1,4 @@
-package com.example.todolistmqtt.data.remote.di.annotation
+package com.example.todolistmqtt.drivers.mqtt.di.annotation
 
 import javax.inject.Qualifier
 

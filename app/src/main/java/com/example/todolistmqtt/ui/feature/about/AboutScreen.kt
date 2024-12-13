@@ -12,7 +12,7 @@ import androidx.navigation.NavController
 
 @Composable
 fun AboutRoute(
-    navController: NavController
+//    navController: NavController
 ) {
     AboutScreen()
 }

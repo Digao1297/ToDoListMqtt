@@ -3,6 +3,7 @@ package com.example.todolistmqtt.data.local.room.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.TaskProto
 import com.example.todolistmqtt.data.local.room.db.DbConstants
 import com.example.todolistmqtt.domain.model.Task
 import javax.annotation.Nonnull
@@ -28,4 +29,9 @@ data class TaskEntity(
 
 fun TaskEntity.toModel(): Task =
     Task(id, value, timestamp, isPendingSync)
+
+fun TaskEntity.toEntity(byteArray: ByteArray): TaskEntity{
+    val proto = TaskProto.parseFrom(byteArray)
+    return TaskEntity(proto.id, proto.value, proto.timestamp, proto.isPendingSync)
+}
 
