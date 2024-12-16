@@ -1,10 +1,10 @@
-package com.example.todolistmqtt.data.remote.di
+package com.example.todolistmqtt.drivers.mqtt.di
 
 import android.content.Context
 import com.example.todolistmqtt.BuildConfig
-import com.example.todolistmqtt.data.remote.di.annotation.ClientID
-import com.example.todolistmqtt.data.remote.di.annotation.ServerURL
-import com.example.todolistmqtt.data.remote.mqtt.MQTTStateFlow
+import com.example.todolistmqtt.drivers.mqtt.MQTTStateFlow
+import com.example.todolistmqtt.drivers.mqtt.di.annotation.ClientID
+import com.example.todolistmqtt.drivers.mqtt.di.annotation.ServerURL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
